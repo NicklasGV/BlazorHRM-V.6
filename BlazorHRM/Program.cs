@@ -25,6 +25,7 @@ namespace BlazorHRM
             builder.Services.AddScoped<EmpRepository>();
             builder.Services.AddScoped<AdminRepository>();
             builder.Services.AddScoped<DepRepository>();
+            builder.Services.AddScoped<EmpLoginRepository>();
 
 
             builder.Services.AddScoped<CityService>();

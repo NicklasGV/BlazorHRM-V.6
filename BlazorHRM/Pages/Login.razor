@@ -24,6 +24,7 @@
     private List<EmpModel>? _emp;
     private List<EmpLoginModel>? _empLog;
     LoginModel login = new LoginModel();
+    EmpLoginModel emplog = new EmpLoginModel();
     bool isNew = true;
 
     protected override void OnInitialized()
@@ -31,19 +32,26 @@
         login = new LoginModel();
         _Login = loginService.GetPWS();
         _emp = eS.CheckAdmin();
-        //_empLog = eS.EmpLogins();
+        _empLog = eS.EmpLogins();
     }
 
     private void HandleSubmit()
     {
         string pws = login.Password;
         string mail = login.Email;
+        string firstName = emplog.FirstName;
+        int LoginId = emplog.LoginId;
 
         if (_Login.Exists(x => x.Password == pws))
         {
-            
-            globalService.IsLoggedIn = true;
-            NM.NavigateTo("/");
+            if (_empLog.Exists(b => b.Email == mail))
+            {
+                List<EmpLoginModel> temp = _empLog.FindAll(z => z.Email == mail);
+                globalService.CurrentEmployeeLoginId = temp[3].LoginId;
+                globalService.CurrentEmployeeFirstName = temp[1].FirstName;
+                globalService.IsLoggedIn = true;
+                NM.NavigateTo("/");
+            }
         }
 
     }

@@ -25,10 +25,10 @@ namespace BlazorHRM.Repositories
                         employees.Add(
                             new EmpLoginModel
                             {
+                                Email = reader["Email"].ToString(),
+                                LoginId = Convert.ToInt32(reader["LoginId"]),
                                 FirstName = reader["FirstName"].ToString(),
                                 LastName = reader["LastName"].ToString(),
-                                Email = reader["Email"].ToString(),
-                                LoginId = Convert.ToInt32(reader["LoginId"])
                             }
                         );
                     }

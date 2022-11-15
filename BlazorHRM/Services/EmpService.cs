@@ -10,10 +10,13 @@ namespace BlazorHRM.Services
         private EmpModel _empModel { get; set; } = new EmpModel();
         private List<EmpModel> _empList { get; set; } = new List<EmpModel>();
         private List<EmpLoginModel> _empLogList { get; set; } = new List<EmpLoginModel>();
-        public EmpService(EmpRepository empRepo)
+        public EmpService(EmpRepository empRepo,EmpLoginRepository emplogRepo)
         {
             _empRepository = empRepo;
+            _empLogRepository = emplogRepo;
+
         }
+
 
         public List<EmpModel> GetAllEmps()
         {
