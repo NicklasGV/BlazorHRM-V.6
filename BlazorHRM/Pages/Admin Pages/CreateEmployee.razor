@@ -1,0 +1,74 @@
+﻿@page "/create"
+@inject EmpService empService
+@inject GlobalService globalService
+<div class="row">
+    <div class="col-lg-9">
+        <h1>Create</h1>
+    </div>
+    <div class="col-lg-3 text-right">
+        <a class="btn btn-secondary btn-sm" href="crudmedarbejder" role="button">Tilbage til medarbejderlisten</a>
+    </div>
+</div>
+
+<EditForm Model="employee" OnValidSubmit="HandleSubmit">
+    <div>
+        <label for="firstname">Fornavn</label>
+        <InputText id="firstname" @bind-Value="@employee.FirstName" class="form-control"></InputText>
+    </div>
+    <div>
+        <label for="lastname">Efternavn</label>
+        <InputText id="lastname" @bind-Value="@employee.LastName" class="form-control"></InputText>
+    </div>
+    <div>
+        <label for="loginid">LoginID</label>
+        <InputNumber id="loginid" @bind-Value="@employee.LoginId" class="form-control"></InputNumber>
+    </div>
+    <div class="col-12 row">
+        <label class="col-2" style="font-weight: bold">Department:</label>
+        <SelectDepartmentId OnChangeEvent="OnSelectDepartmentChange"></SelectDepartmentId>
+    </div>
+    <div class="col-12 row">
+        <label class="col-2" style="font-weight: bold">city:</label>
+        <SelectCity OnChangeEvent="OnSelectCityChange"></SelectCity>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Login</button>
+</EditForm>
+
+@if (isUploaded == true)
+{
+    <p>Employee has been registered</p>
+}
+
+@code {
+    EmpModel employee = new EmpModel();
+    bool isUploaded = false;
+    DepartmentModel? department { get; set; } = new DepartmentModel();
+
+    public string? SelectedCity { get; set; }
+    public string? SelectedDep { get; set; }
+
+
+    private void HandleSubmit()
+    {
+        employee.DepartmentId = Convert.ToInt32(SelectedDep);
+        employee.CityId = Convert.ToInt32(SelectedCity);
+        employee = empService.AddEmp(employee);
+        isUploaded = true;
+
+        Task.Delay(15000);
+
+        isUploaded = false;
+
+    }
+    private void OnSelectDepartmentChange(ChangeEventArgs changeEventArgs)
+    {
+        SelectedDep = changeEventArgs.Value.ToString();
+        department.Id = int.Parse(SelectedDep);
+    }
+
+    private void OnSelectCityChange(ChangeEventArgs changeEventArgs)
+    {
+        SelectedCity = changeEventArgs.Value.ToString();
+        department.CityId = int.Parse(SelectedCity);
+    }
+}

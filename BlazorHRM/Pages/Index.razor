@@ -1,0 +1,20 @@
+﻿@page "/"
+@inject GlobalService globalService
+@inject NavigationManager _nav
+
+<PageTitle>Index</PageTitle>
+
+<h1>Welcome @globalService.CurrentEmployeeFirstName</h1>
+
+@if (globalService.IsLoggedIn == false)
+{
+
+    <button @onclick="@(()=>_nav.NavigateTo("/reglogin"))">Register new login</button>
+    <br />
+    <button @onclick="@(()=>_nav.NavigateTo("/login"))">Login</button>
+}
+else if (globalService.IsLoggedIn == true)
+{
+    <h3>Du er logget ind som @globalService.CurrentEmployeeFirstName @globalService.CurrentEmployeeLastName Login ID @globalService.CurrentEmployeeLoginId</h3>
+}
+

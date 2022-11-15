@@ -1,0 +1,46 @@
+﻿@page "/departments"
+
+<h3>Departments</h3>
+
+<EditForm Model="department">
+    <div class="col-12 row">
+        <label class="col-2" style="font-weight: bold">Department Id:</label>
+        <InputNumber class="form-control col-3" @bind-Value="department.Id" disabled></InputNumber>
+        &nbsp;<ValidationMessage For="@(() => department.Id)" />
+    </div>
+    <div class="col-12 row">
+        <label class="col-2" style="font-weight: bold">Department Name:</label>
+        <InputText class="form-control col-3" @bind-Value="department.Name"></InputText>
+        &nbsp;<ValidationMessage For="@(() => department.Name)" />
+    </div>
+    <div class="col-12 row">
+        <label class="col-2" style="font-weight: bold">city:</label>
+        <SelectCity OnChangeEvent="OnSelectCityChange"></SelectCity>
+    </div>
+    <div class="col-1 row">
+        <span class="col-2">&nbsp;</span>
+        <input type="submit" class="form-control col-1 btn btn-primary" Value="Save" />
+        <span>&nbsp;</span>
+        <input type="submit" class="form-control col-1 btn btn-primary" Value="Clear" />
+    </div>
+</EditForm>
+
+
+@code {
+    DepartmentModel? department { get; set; } = new DepartmentModel();
+
+    public string? SelectedCity { get; set; }
+
+    protected override void OnInitialized()
+    {
+
+    }
+
+    private void OnSelectCityChange(ChangeEventArgs changeEventArgs)
+    {
+        SelectedCity = changeEventArgs.Value.ToString();
+        department.CityId = int.Parse(SelectedCity);
+    }
+
+
+}

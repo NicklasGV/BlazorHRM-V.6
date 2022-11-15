@@ -1,0 +1,29 @@
+﻿@using BlazorHRM.Models
+@using BlazorHRM.Services
+@inject DepService depService
+@inject GlobalService globalService
+
+<select class="form-control col-3" @onchange="OnChangeEvent">
+    @if (_deps is not null)
+    {
+        <option value="0">select Department</option>
+        @foreach (var dep in _deps)
+        {
+            <option value="@dep.Id">@dep.Id</option>
+        }
+    }
+</select>
+
+
+@code {
+
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnChangeEvent { get; set; }
+
+    private List<DepartmentModel>? _deps;
+
+    protected override void OnInitialized()
+    {
+        _deps = depService.GetAll();
+    }
+}

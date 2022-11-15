@@ -1,0 +1,33 @@
+﻿@page "/cities"
+@inject CityService cityService
+@inject GlobalService globalService
+
+<h3>Cities</h3>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th />
+            <th>City Name</th>
+        </tr>
+        @if (_cities is not null)
+        {
+            @foreach (var city in _cities)
+            {
+                <tr>
+                    <td>@city.Id</td>
+                    <td />
+                    <td>@city.CityName</td>
+                </tr>
+            }
+        }
+    </table>
+
+
+@code {
+    private List<CityModel>? _cities;
+
+    protected override void OnInitialized()
+    {
+        _cities = cityService.GetAll();
+    }
+}

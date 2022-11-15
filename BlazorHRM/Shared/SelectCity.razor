@@ -1,0 +1,29 @@
+﻿@using BlazorHRM.Models
+@using BlazorHRM.Services
+@inject CityService cityService
+@inject GlobalService globalService
+
+<select class="form-control col-3" @onchange="OnChangeEvent">
+    @if (_cities is not null)
+    {
+        <option value="0">select city...</option>
+        @foreach (var city in _cities)
+        {
+            <option value="@city.Id" >@city.Id</option>
+        }
+    }
+</select>
+
+
+@code {
+
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnChangeEvent { get; set; }
+
+    private List<CityModel>? _cities;
+
+    protected override void OnInitialized()
+    {
+        _cities = cityService.GetAll();
+    }
+}

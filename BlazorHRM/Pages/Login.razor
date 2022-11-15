@@ -1,0 +1,50 @@
+﻿@page "/login"
+@inject LoginService loginService
+@inject EmpService eS
+@inject GlobalService globalService
+@inject NavigationManager NM
+
+<h3>Login</h3>
+<EditForm Model="login" OnValidSubmit="HandleSubmit">
+    <div>
+        <label for="email">Email</label>
+        <InputText id="email" @bind-Value="@login.Email" class="form-control"></InputText>
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <InputText id="password" @bind-Value="@login.Password" type="password" class="form-control"></InputText>
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+</EditForm>
+
+
+@code {
+
+    private List<LoginModel>? _Login;
+    private List<EmpModel>? _emp;
+    private List<EmpLoginModel>? _empLog;
+    LoginModel login = new LoginModel();
+    bool isNew = true;
+
+    protected override void OnInitialized()
+    {
+        login = new LoginModel();
+        _Login = loginService.GetPWS();
+        _emp = eS.CheckAdmin();
+        //_empLog = eS.EmpLogins();
+    }
+
+    private void HandleSubmit()
+    {
+        string pws = login.Password;
+        string mail = login.Email;
+
+        if (_Login.Exists(x => x.Password == pws))
+        {
+            
+            globalService.IsLoggedIn = true;
+            NM.NavigateTo("/");
+        }
+
+    }
+}

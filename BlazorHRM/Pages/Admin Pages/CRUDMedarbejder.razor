@@ -1,0 +1,86 @@
+﻿@page "/crudmedarbejder"
+@inject EmpService empService
+@inject GlobalService globalService
+
+<h3>Medarbejder</h3>
+<div class="row">
+    <div class="col-lg-9">
+        <h1>Employees</h1>
+    </div>
+    <div class="col-lg-3 text-right">
+        <a class="btn btn-success btn-sm" href="create" role="button">Tilføj ny</a>
+    </div>
+</div>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th />
+            <th>First name</th>
+            <th />
+            <th>Last name</th>
+            <th />
+            <th>Is Admin</th>
+            <th />
+            <th>LoginId</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (_emps is not null)
+        {
+            @foreach (var emp in _emps)
+            {
+                <tr>
+                    <td>@emp.Id</td>
+                    <td />
+                    <td>@emp.FirstName</td>
+                    <td />
+                    <td>@emp.LastName</td>
+                    <td />
+                    <td>@emp.IsAdmin</td>
+                    <td />
+                    <td>@emp.LoginId</td>
+                    @*<td><button class="btn-outline-info" @onclick="(() => EditEmp(emp))">Edit</button></td>*@
+                    <td><button class="btn-outline-danger" @onclick="(() => DeleteEmp(emp))">Delete</button></td>
+                    <td><button class="btn-outline-success" @onclick="(() => MakeAdmin(emp))">Make employee admin</button></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+@code {
+    private List<EmpModel>? _emps;
+    EmpModel emp1 = new EmpModel();
+
+    protected override void OnInitialized()
+    {
+        emp1 = new EmpModel();
+        _emps = empService.GetAllEmps();
+    }
+
+
+    void DeleteEmp(EmpModel emp)
+    {
+        emp1.Id = emp.LoginId;
+
+        empService.DeleteEmp(emp);
+
+        _emps.Clear();
+        _emps = empService.GetAllEmps();
+    }
+
+    void MakeAdmin(EmpModel emp)
+    {
+        emp1.Id = emp.Id;
+
+        emp1.IsAdmin = true;
+        empService.IsAdmin(emp1);
+
+        _emps.Clear();
+        _emps = empService.GetAllEmps();
+    }
+}

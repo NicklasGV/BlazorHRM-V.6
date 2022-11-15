@@ -1,0 +1,70 @@
+﻿@inject GlobalService gS
+
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">BlazorHRM</a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+        @if (gS.IsLoggedIn)
+        {
+            <div class="text-success">Logged In Users</div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="emps">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Employees
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="cities">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Cities
+                </NavLink>
+            </div>
+        }
+        @if (gS.IsAdmin)
+        {
+            <div class="text-danger"> Admin Tasks</div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="crudmedarbejder">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> CRUD Medarbejder
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="departments">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Departments
+                </NavLink>
+            </div
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="tasklist">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> TaskList
+                </NavLink>
+            </div>
+        }
+    </nav>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    protected override void OnInitialized()
+    {
+        
+    }
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

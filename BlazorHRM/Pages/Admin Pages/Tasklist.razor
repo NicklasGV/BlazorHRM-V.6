@@ -1,0 +1,69 @@
+﻿@page "/tasklist"
+@inject TaskService TS
+
+<h3>TaskList</h3>
+
+
+@if (_tasks.Count > 0)
+{
+    <h4>Progress: @(percentDone) done</h4>
+    <div class="progress my-2>">
+        <div class="progress-bar" role="progressbar"
+         style="width: @(percentDone)%"
+         aria-valuemin="0" aria-valuemax="100">
+            @(percentDone)
+        </div>
+    </div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>EmpId   Task</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ul class="list-group">
+            @foreach (var task in _tasks)
+            {
+                @if (task.IsComplete)
+                {
+                    <li class="list-group-item list-group-item-secondary my-1"
+                @onclick="(() => task.IsComplete = !task.IsComplete)">
+                        <del>@task.EmployeeId</del>
+                        <del>@task.Task</del>
+                    </li>
+                }
+                else
+                {
+                    <li class="list-group-item list-group-item-secondary my-1"
+                @onclick="(() => task.IsComplete = !task.IsComplete)">
+                        @task.EmployeeId
+                        
+                        @task.Task
+                    </li>
+                }
+            }
+        </ul>
+    </tbody>
+</table>
+
+@code {
+    private List<TaskModel>? _tasks;
+
+    private int percentDone
+    {
+
+        get
+        {
+            if (_tasks.Count > 0)
+                return (_tasks.Count(x => x.IsComplete) * 100) / _tasks.Count;
+            else
+                return 0;
+        }
+    }
+    protected override void OnInitialized()
+    {
+        _tasks = TS.GetAll();
+    }
+}
