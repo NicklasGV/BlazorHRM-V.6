@@ -40,7 +40,7 @@
         string pws = login.Password;
         string mail = login.Email;
         string firstName = emplog.FirstName;
-        int LoginId = emplog.LoginId;
+        int id = 0;
 
         if (_Login.Exists(x => x.Password == pws))
         {
@@ -48,7 +48,15 @@
             {
                 List<EmpLoginModel> temp = _empLog.FindAll(z => z.Email == mail);
                 List<EmpModel> temp1 = _emp.FindAll(z => z.IsAdmin == true);
-                int id = globalService.CurrentEmployeeLoginId = temp1[0].LoginId;
+                _emp = temp1;
+                if (temp1[0].LoginId == temp[0].LoginId)
+                {
+                    id = temp1[0].LoginId;
+                }
+                else
+                {
+                    id = temp[0].LoginId;
+                }
                 if (_emp.Exists(i => i.LoginId == id))
                 {
                     globalService.CurrentEmployeeLoginId = temp1[0].LoginId;
@@ -65,7 +73,6 @@
                 globalService.CurrentEmployeeFirstName = temp[0].FirstName;
                 globalService.CurrentEmployeeLastName = temp[0].LastName;
 
-                globalService.IsAdmin = temp1[0].IsAdmin;
                 globalService.IsLoggedIn = true;
                 NM.NavigateTo("/");
                 NM.NavigateTo("/");

@@ -28,7 +28,7 @@ namespace BlazorHRM.Repositories
                                 Id = Convert.ToInt32(reader["Id"]),
                                 FirstName = reader["FirstName"].ToString(),
                                 LastName = reader["LastName"].ToString(),
-                                IsAdmin = reader["IsAdmin"].ToString() == "True",
+                                IsAdmin = Convert.ToBoolean(reader["IsAdmin"]),
                                 LoginId = Convert.ToInt32(reader["LoginId"])
                             }
                         );
@@ -138,6 +138,7 @@ namespace BlazorHRM.Repositories
                             {
                                 Id = Convert.ToInt32(reader["Id"]),
                                 IsAdmin = reader["IsAdmin"].ToString() == "True",
+                                LoginId = Convert.ToInt32(reader["LoginId"])
                             }
                         );
                     }

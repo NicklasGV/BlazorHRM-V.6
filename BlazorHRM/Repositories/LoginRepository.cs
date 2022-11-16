@@ -88,5 +88,33 @@ namespace BlazorHRM.Repositories
             return pws;
         }
         #endregion 
+
+        #region IDS
+        //public List<LoginModel> GetIDS()
+        //{
+        //    string command = "usp_IDS";
+        //    List<LoginModel> ids = new List<LoginModel>();
+
+        //    Connection.Open();
+        //    using (SqlCommand cmd = new SqlCommand(command, Connection))
+        //    {
+        //        cmd.CommandText = command;
+        //        cmd.CommandType = CommandType.StoredProcedure;
+        //        using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+        //        {
+        //            while (reader.Read())
+        //            {
+        //                ids.Add(
+        //                    new LoginModel
+        //                    {
+        //                        Id = Convert.ToInt32(reader["Id"]),
+        //                    }
+        //                );
+        //            }
+        //        }
+        //    }
+        //    return ids;
+        //}
+        #endregion 
     }
 }
