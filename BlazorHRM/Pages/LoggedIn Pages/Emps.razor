@@ -4,35 +4,39 @@
 
 <h3>Emps</h3>
 
-<table>
-    <tr>
-        <th>Id</th>
-        <th />
-        <th>First name</th>
-        <th />
-        <th>Last name</th>
-        <th />
-        <th>Isadmin</th>
-        <th />
-        <th>LoginId</th>
-    </tr>
-    @if (_empList is not null)
-    {
-        @foreach (var emp in _empList)
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th />
+            <th>First name</th>
+            <th />
+            <th>Last name</th>
+            <th />
+            <th>Is Admin</th>
+            <th />
+            <th>LoginId</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (_empList is not null)
         {
-            <tr>
-                <td>@emp.Id</td>
-                <td />
-                <td>@emp.FirstName</td>
-                <td />
-                <td>@emp.LastName</td>
-                <td />
-                <td>@emp.IsAdmin</td>
-                <td />
-                <td>@emp.LoginId</td>
-            </tr>
+            @foreach (var emp in _empList)
+            {
+                <tr>
+                    <td>@emp.Id</td>
+                    <td />
+                    <td>@emp.FirstName</td>
+                    <td />
+                    <td>@emp.LastName</td>
+                    <td />
+                    <td>@emp.IsAdmin</td>
+                    <td />
+                    <td>@emp.LoginId</td>
+                </tr>
+            }
         }
-    }
+    </tbody>
 </table>
 
 @code {

@@ -1,0 +1,35 @@
+﻿@page "/requesting"
+@inject EmpService empService
+@inject TaskService taskService
+@inject GlobalService globalService
+@inject NavigationManager NM
+
+<h3>Component</h3>
+
+<button @onclick="(() => delEmp())">Request admin to delete current Employee</button>
+<br />
+<br />
+<button @onclick="(() => ReqAdmin())">Request admin to make current employee admin</button>
+
+@code {
+    TaskModel reqs = new TaskModel();
+
+    void delEmp()
+    {
+        int empId = globalService.CurrentEmployeeLoginId;
+
+        reqs = taskService.GetReqs(empId,1);
+
+        NM.NavigateTo("/");
+    }
+
+    void ReqAdmin()
+    {
+        int empId = globalService.CurrentEmployeeLoginId;
+
+        reqs = taskService.GetReqs(empId, 2);
+
+        NM.NavigateTo("/");
+    }
+
+}

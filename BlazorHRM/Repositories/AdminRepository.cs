@@ -36,5 +36,29 @@ namespace BlazorHRM.Repositories
 
             return tasks;
         }
+
+        public TaskModel GetRequests(int empId, int reqId)
+        {
+            TaskModel theReq = new TaskModel();
+            string command = "usp_INSERT_REQ";
+
+            Connection.Open();
+            using (SqlCommand cmd = new SqlCommand(command, Connection))
+            {
+                cmd.CommandText = command;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", empId);
+                cmd.Parameters.AddWithValue("@RequestId", reqId);
+                using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                {
+                    while (reader.Read())
+                    {
+                        theReq.EmployeeId = Convert.ToInt32(reader["EmployeeId"]);
+                        theReq.RequestId = Convert.ToInt32(reader["RequestId"]);
+                    }
+                }
+                return theReq;
+            }
+        }
     }
 }
