@@ -1,5 +1,6 @@
 ﻿@page "/reglogin"
 @inject LoginService loginService
+@inject EmpService Em
 @inject GlobalService globalService
 @inject NavigationManager NM
 
@@ -13,6 +14,18 @@
         <label for="password">Password</label>
         <InputText id="password" @bind-Value="@login.Password" type="password" class="form-control"></InputText>
     </div>
+    <div>
+        <label for="firstname">Fornavn</label>
+        <InputText id="firstname" @bind-Value="@employee.FirstName" class="form-control"></InputText>
+    </div>
+    <div>
+        <label for="lastname">Efternavn</label>
+        <InputText id="lastname" @bind-Value="@employee.LastName" class="form-control"></InputText>
+    </div>
+    <div class="col-12 row">
+        <label class="col-2" style="font-weight: bold">city:</label>
+        <SelectCity OnChangeEvent="OnSelectCityChange"></SelectCity>
+    </div>
     <button type="submit" class="btn btn-primary">Create Login</button>
 </EditForm>
 
@@ -24,12 +37,18 @@
 
 
 @code {
-
+    EmpModel employee = new EmpModel();
     LoginModel login = new LoginModel();
     bool isUploaded = false;
+    DepartmentModel? department { get; set; } = new DepartmentModel();
+
+    public string? SelectedCity { get; set; }
 
     private void HandleSubmit()
     {
+        employee.DepartmentId = Convert.ToInt32(SelectedDep);
+        employee.CityId = Convert.ToInt32(SelectedCity);
+        employee = empService.AddEmp(employee);
         login = loginService.AddLogin(login);
         isUploaded = true;
 
@@ -37,5 +56,11 @@
 
         isUploaded = false;
 
+    }
+
+    private void OnSelectCityChange(ChangeEventArgs changeEventArgs)
+    {
+        SelectedCity = changeEventArgs.Value.ToString();
+        department.CityId = int.Parse(SelectedCity);
     }
 }

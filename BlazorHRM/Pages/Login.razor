@@ -47,19 +47,27 @@
             if (_empLog.Exists(b => b.Email == mail))
             {
                 List<EmpLoginModel> temp = _empLog.FindAll(z => z.Email == mail);
+                List<EmpModel> temp1 = _emp.FindAll(z => z.IsAdmin == true);
+                int id = globalService.CurrentEmployeeLoginId = temp1[0].LoginId;
+                if (_emp.Exists(i => i.LoginId == id))
+                {
+                    globalService.CurrentEmployeeLoginId = temp1[0].LoginId;
+                    globalService.CurrentEmployeeFirstName = temp[0].FirstName;
+                    globalService.CurrentEmployeeLastName = temp[0].LastName;
+                    globalService.CurrentEmployeeLoginId = id;
+                    globalService.IsLoggedIn = true;
+                    globalService.IsAdmin = true;
+                    NM.NavigateTo("/");
+                    NM.NavigateTo("/");
+                }
+                else
                 globalService.CurrentEmployeeLoginId = temp[0].LoginId;
                 globalService.CurrentEmployeeFirstName = temp[0].FirstName;
                 globalService.CurrentEmployeeLastName = temp[0].LastName;
 
-                List<EmpModel> temp1 = _emp.FindAll(z => z.IsAdmin == true);
                 globalService.IsAdmin = temp1[0].IsAdmin;
-                int id = globalService.CurrentEmployeeLoginId = temp1[0].LoginId;
-                if (_emp.Exists(i => i.LoginId == id))
-                {
-                    globalService.IsLoggedIn = true;
-                    globalService.IsAdmin = true;
-                }
                 globalService.IsLoggedIn = true;
+                NM.NavigateTo("/");
                 NM.NavigateTo("/");
             }
         }
